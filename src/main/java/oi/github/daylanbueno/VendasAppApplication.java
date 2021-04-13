@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @SpringBootApplication
 @RestController
 public class VendasAppApplication {
@@ -29,6 +27,8 @@ public class VendasAppApplication {
     public CommandLineRunner init(@Autowired ClienteRepository clienteRepository) {
         return args -> {
             System.out.println("APLICACAO INICIADA");
+            Cliente cliente = clienteRepository.salvar(new Cliente("DAILAN BUENO DOS SANTOS"));
+            System.out.println(cliente.toString());
         };
     }
 
