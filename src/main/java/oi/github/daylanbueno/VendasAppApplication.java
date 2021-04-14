@@ -27,29 +27,29 @@ public class VendasAppApplication {
     public CommandLineRunner init(@Autowired ClienteRepository clienteRepository) {
         return args -> {
             System.out.println("APLICACAO INICIADA");
-            Cliente cliente = clienteRepository.salvar(new Cliente("DAILAN BUENO DOS SANTOS"));
-            clienteRepository.salvar(new Cliente("AMANDA CRISTINA PEREIRA "));
-            clienteRepository.salvar(new Cliente("DILAN BUENO DOS RODRIGUES"));
-            clienteRepository.salvar(new Cliente("MARIA LIMA SILVA"));
+            Cliente cliente = clienteRepository.save(new Cliente("DAILAN BUENO DOS SANTOS"));
+            clienteRepository.save(new Cliente("AMANDA CRISTINA PEREIRA "));
+            clienteRepository.save(new Cliente("DILAN BUENO DOS RODRIGUES"));
+            clienteRepository.save(new Cliente("MARIA LIMA SILVA"));
 
             System.out.println(cliente.toString());
 
             cliente.setNome(cliente.getNome()+" atualizdo!");
-            Cliente clienteAtulizado = clienteRepository.atualizarCliente(cliente);
+            Cliente clienteAtulizado = clienteRepository.save(cliente);
             System.out.println(clienteAtulizado.toString());
 
             System.out.println("buacando amanda");
-            clienteRepository.recuperaPorNome("AMANDA").forEach(System.out::println);
+            clienteRepository.findByNomeLike("AMANDA").forEach(System.out::println);
 
 
             System.out.println("buacando todos");
-            clienteRepository.recuperaTodos().forEach(System.out::println);
+            clienteRepository.findAll().forEach(System.out::println);
 
             System.out.println("deletando MARIA");
-            clienteRepository.deleteCliente(4);
+            clienteRepository.deleteById(4);
 
             System.out.println("resultado sem maria");
-            clienteRepository.recuperaTodos().forEach(System.out::println);
+            clienteRepository.findAll().forEach(System.out::println);
 
         };
     }
