@@ -26,11 +26,12 @@ public class VendasAppApplication {
     @Bean
     public CommandLineRunner init(@Autowired ClienteRepository clienteRepository) {
         return args -> {
-            System.out.println("APLICACAO INICIADA");
+            System.out.println(" ** APLICACAO INICIADA ** ");
             Cliente cliente = clienteRepository.save(new Cliente("DAILAN BUENO DOS SANTOS"));
             clienteRepository.save(new Cliente("AMANDA CRISTINA PEREIRA "));
             clienteRepository.save(new Cliente("DILAN BUENO DOS RODRIGUES"));
             clienteRepository.save(new Cliente("MARIA LIMA SILVA"));
+            clienteRepository.save(new Cliente("MARCOS"));
 
             System.out.println(cliente.toString());
 
@@ -38,17 +39,18 @@ public class VendasAppApplication {
             Cliente clienteAtulizado = clienteRepository.save(cliente);
             System.out.println(clienteAtulizado.toString());
 
-            System.out.println("buacando amanda");
-            clienteRepository.findByNomeLike("AMANDA").forEach(System.out::println);
+            System.out.println("***OBTENDO AMANDA**");
+            clienteRepository.obterPorNomeSqlNativo("AMANDA").forEach(System.out::println);
 
-
-            System.out.println("buacando todos");
+            System.out.println("Existe cliente MARCOS? "+ clienteRepository.existsByNome("MARCOS"));
+            System.out.println("Existe cliente EDU? "+ clienteRepository.existsByNome("EDU"));
+            System.out.println("*** BUSCANDO TODOS ***");
             clienteRepository.findAll().forEach(System.out::println);
 
-            System.out.println("deletando MARIA");
+            System.out.println("** DELETANDO MARIA **");
             clienteRepository.deleteById(4);
 
-            System.out.println("resultado sem maria");
+            System.out.println("** RESULTADO SEM MARIA **");
             clienteRepository.findAll().forEach(System.out::println);
 
         };
