@@ -7,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 
 @Entity
 @Table(name = "PEDIDO")
@@ -29,6 +31,9 @@ public class Pedido {
 
     @Column(name = "total", length = 20, precision = 2)
     private BigDecimal total;
+
+    @OneToMany(mappedBy = "pedido")
+    private Collection<ItemPedido> itesPedidos;
 
     public Integer getId() {
         return id;
@@ -60,5 +65,13 @@ public class Pedido {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public Collection<ItemPedido> getItesPedidos() {
+        return itesPedidos;
+    }
+
+    public void setItesPedidos(Collection<ItemPedido> itesPedidos) {
+        this.itesPedidos = itesPedidos;
     }
 }
