@@ -1,18 +1,38 @@
 package oi.github.daylanbueno.domain.controller;
 
+import oi.github.daylanbueno.domain.entity.Cliente;
+import oi.github.daylanbueno.domain.repository.ClienteRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
+
+    private final ClienteRepository clienteRepository;
+
+    public ClienteController(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
+    }
 
     @GetMapping("/hello/{nome}")
     @ResponseBody
     public String helloCliente(@PathVariable("nome") String nome) {
         return String.format("hello %s", nome);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> obterClientePorId(@PathVariable Integer id) {
+        Optional<Cliente> clienteOptional = clienteRepository.findById(id);
+        if(clienteOptional.isPresent()) {
+            return ResponseEntity.ok(clienteOptional.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 }
