@@ -21,12 +21,6 @@ public class ClienteController {
         this.clienteRepository = clienteRepository;
     }
 
-    @GetMapping("/hello/{nome}")
-    @ResponseBody
-    public String helloCliente(@PathVariable("nome") String nome) {
-        return String.format("hello %s", nome);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> obterClientePorId(@PathVariable Integer id) {
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
