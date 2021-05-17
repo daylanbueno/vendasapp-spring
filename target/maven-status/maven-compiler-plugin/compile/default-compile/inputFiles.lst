@@ -1,2 +1,10 @@
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/repository/ClienteRepository.java
 /home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/VendasAppApplication.java
-/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/config/MyConfiguration.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/repository/ProdutoRepository.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/entity/Pedido.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/repository/PedidoRepository.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/controller/ClienteController.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/repository/ItemsPedidoRepository.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/entity/ItemPedido.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/entity/Cliente.java
+/home/dailan/projetos/vendasapp/src/main/java/oi/github/daylanbueno/domain/entity/Produto.java

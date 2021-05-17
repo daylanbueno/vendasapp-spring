@@ -21,6 +21,9 @@ public class Cliente {
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @Column(length = 15)
+    private String cpf;
+
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
 
@@ -54,6 +57,14 @@ public class Cliente {
 
     public Set<Pedido> getPedidos() {
         return pedidos;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public void setPedidos(Set<Pedido> pedidos) {
