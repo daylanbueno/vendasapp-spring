@@ -1,1 +1,5 @@
 oi/github/daylanbueno/VendasAppApplication.class
+oi/github/daylanbueno/domain/service/PedidoService.class
+oi/github/daylanbueno/domain/dto/ItemPedidoDTO.class
+oi/github/daylanbueno/domain/service/impl/PedidoServiceImpl.class
+oi/github/daylanbueno/domain/dto/PedidoDTO.class
