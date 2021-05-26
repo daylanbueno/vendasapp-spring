@@ -1,5 +1,9 @@
 package oi.github.daylanbueno.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +15,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ITEM_PEDIDO")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,35 +35,10 @@ public class ItemPedido {
     @Column(name = "quantidade")
     private Integer quantidade;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
+    public ItemPedido(Pedido pedido, Produto produto, Integer quantidade) {
         this.pedido = pedido;
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
         this.produto = produto;
-    }
-
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 }

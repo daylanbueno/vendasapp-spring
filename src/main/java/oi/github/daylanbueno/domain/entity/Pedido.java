@@ -32,6 +32,7 @@ public class Pedido {
     @Column(name = "total", scale = 2, precision = 20)
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
     private Collection<ItemPedido> itesPedidos;
+
     }
