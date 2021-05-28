@@ -13,11 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "ITEM_PEDIDO")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "ITEM_PEDIDO")
 public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,12 +1,10 @@
 package oi.github.daylanbueno.domain.controller;
 
 import lombok.RequiredArgsConstructor;
+import oi.github.daylanbueno.domain.dto.InformacaoPedidoDTO;
 import oi.github.daylanbueno.domain.dto.PedidoDTO;
 import oi.github.daylanbueno.domain.service.PedidoService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -18,5 +16,10 @@ public class PedidoController {
     @PostMapping
     public Integer salvar(@RequestBody PedidoDTO pedidoDTO) {
         return pedidoService.salva(pedidoDTO);
+    }
+
+    @GetMapping("/{id}")
+    public InformacaoPedidoDTO buscaInformacaoPedidoPorId(@PathVariable Integer id) {
+        return pedidoService.buscaInformacaoPedidoPorId(id);
     }
 }

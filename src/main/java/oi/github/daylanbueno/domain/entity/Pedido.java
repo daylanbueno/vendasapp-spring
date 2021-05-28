@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity
 @Table(name = "PEDIDO")
 public class Pedido {
@@ -32,7 +33,7 @@ public class Pedido {
     @Column(name = "total", scale = 2, precision = 20)
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
-    private Collection<ItemPedido> itesPedidos;
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itesPedidos;
 
     }
