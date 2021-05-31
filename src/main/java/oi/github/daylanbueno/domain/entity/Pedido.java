@@ -3,6 +3,7 @@ package oi.github.daylanbueno.domain.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import oi.github.daylanbueno.domain.enums.StatusPedido;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -29,6 +30,10 @@ public class Pedido {
 
     @Column(name = "data_pedido")
     private LocalDate dataPedido;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private StatusPedido status;
 
     @Column(name = "total", scale = 2, precision = 20)
     private BigDecimal total;

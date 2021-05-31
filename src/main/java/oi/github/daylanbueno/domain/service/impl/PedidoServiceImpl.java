@@ -9,6 +9,7 @@ import oi.github.daylanbueno.domain.entity.Cliente;
 import oi.github.daylanbueno.domain.entity.ItemPedido;
 import oi.github.daylanbueno.domain.entity.Pedido;
 import oi.github.daylanbueno.domain.entity.Produto;
+import oi.github.daylanbueno.domain.enums.StatusPedido;
 import oi.github.daylanbueno.domain.exception.RegraNegocioException;
 import oi.github.daylanbueno.domain.repository.ClienteRepository;
 import oi.github.daylanbueno.domain.repository.ItemsPedidoRepository;
@@ -40,6 +41,7 @@ public class PedidoServiceImpl  implements PedidoService {
 
         Pedido pedido = new Pedido();
         pedido.setTotal(pedidoDTO.getTotal());
+        pedido.setStatus(StatusPedido.REALIZADO);
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
 
@@ -63,6 +65,7 @@ public class PedidoServiceImpl  implements PedidoService {
                 .nomeCliente(pedidoAtual.getCliente().getNome())
                 .cpf(pedidoAtual.getCliente().getCpf())
                 .total(pedidoAtual.getTotal())
+                .status(pedidoAtual.getStatus().name())
                 .dataPedido(DataUtil.converterDataEmStringBr(pedidoAtual.getDataPedido()))
                 .itens(converterItensPedido(pedidoAtual.getItesPedidos()))
                         .build();
