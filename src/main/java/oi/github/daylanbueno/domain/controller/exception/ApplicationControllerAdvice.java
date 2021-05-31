@@ -1,5 +1,6 @@
 package oi.github.daylanbueno.domain.controller.exception;
 
+import oi.github.daylanbueno.domain.exception.ObjetoNaoEncontradoExeption;
 import oi.github.daylanbueno.domain.exception.RegraNegocioException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,5 +14,11 @@ public class ApplicationControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleRegraNegocioException(RegraNegocioException ex) {
         return new ApiError(ex.getMessage());
+     }
+
+     @ExceptionHandler(ObjetoNaoEncontradoExeption.class)
+     @ResponseStatus(HttpStatus.BAD_REQUEST)
+     public ApiError handleObjetoNaoEncontradoException(ObjetoNaoEncontradoExeption ex) {
+        return  new ApiError(ex.getMessage());
      }
 }

@@ -10,6 +10,7 @@ import oi.github.daylanbueno.domain.entity.ItemPedido;
 import oi.github.daylanbueno.domain.entity.Pedido;
 import oi.github.daylanbueno.domain.entity.Produto;
 import oi.github.daylanbueno.domain.enums.StatusPedido;
+import oi.github.daylanbueno.domain.exception.ObjetoNaoEncontradoExeption;
 import oi.github.daylanbueno.domain.exception.RegraNegocioException;
 import oi.github.daylanbueno.domain.repository.ClienteRepository;
 import oi.github.daylanbueno.domain.repository.ItemsPedidoRepository;
@@ -18,6 +19,7 @@ import oi.github.daylanbueno.domain.repository.ProdutoRepository;
 import oi.github.daylanbueno.domain.service.PedidoService;
 import oi.github.daylanbueno.domain.util.DataUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
@@ -36,6 +38,7 @@ public class PedidoServiceImpl  implements PedidoService {
     private final ItemsPedidoRepository itemsPedidoRepository;
 
     @Override
+    @Transactional
     public Integer salva(PedidoDTO pedidoDTO) {
         Cliente cliente = buscaClientePorId(pedidoDTO.getCliente());
 
@@ -57,6 +60,20 @@ public class PedidoServiceImpl  implements PedidoService {
         return pedidoRepository.findByidFetchItens(id)
                 .map(pedidoAtual ->  converterInformacaoPedido(pedidoAtual))
                 .orElseThrow(() ->  new RegraNegocioException("Pedido não encontrado!"));
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, String novoStatus) {
+        StatusPedido status = StatusPedido.valueOf(novoStatus);
+        if (status == null) {
+            throw new RegraNegocioException("Status informado não é válido!");
+        }
+        Pedido pedido = pedidoRepository
+                .findById(id)
+                .orElseThrow(() -> new ObjetoNaoEncontradoExeption("Pedido não encontrado"));
+        pedido.setStatus(status);
+        pedidoRepository.save(pedido);
     }
 
     private InformacaoPedidoDTO converterInformacaoPedido(Pedido pedidoAtual) {

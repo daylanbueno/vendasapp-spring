@@ -7,4 +7,6 @@ public interface PedidoService {
     Integer salva(PedidoDTO pedidoDTO);
 
     InformacaoPedidoDTO buscaInformacaoPedidoPorId(Integer id);
+
+    void atualizaStatus(Integer id, String novoStatus);
 }
