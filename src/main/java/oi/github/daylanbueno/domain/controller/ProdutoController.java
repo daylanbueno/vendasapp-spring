@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,12 +31,12 @@ public class ProdutoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Produto salva(@RequestBody Produto produto) {
+    public Produto salva(@RequestBody @Valid Produto produto) {
         return produtoRepository.save(produto);
     }
 
     @PutMapping("/{id}")
-    public Produto altera(@PathVariable Integer id, @RequestBody Produto produto) {
+    public Produto altera(@PathVariable Integer id, @RequestBody @Valid Produto produto) {
         return produtoRepository
                 .findById(id)
                 .map(produtoAtual ->  {

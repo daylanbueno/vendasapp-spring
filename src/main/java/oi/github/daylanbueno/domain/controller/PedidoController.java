@@ -8,6 +8,8 @@ import oi.github.daylanbueno.domain.service.PedidoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/pedidos")
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class PedidoController {
     private final PedidoService pedidoService;
 
     @PostMapping
-    public Integer salvar(@RequestBody PedidoDTO pedidoDTO) {
+    public Integer salvar(@RequestBody @Valid PedidoDTO  pedidoDTO) {
         return pedidoService.salva(pedidoDTO);
     }
 

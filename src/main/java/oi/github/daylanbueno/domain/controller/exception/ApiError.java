@@ -1,12 +1,20 @@
 package oi.github.daylanbueno.domain.controller.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.Collections;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class ApiError {
-    private String messagem;
+    private List<String> erros;
+
+    public ApiError(List<String> erros) {
+        this.erros = erros;
+    }
+    public ApiError(String erro) {
+        this.erros = Collections.singletonList(erro);
+    }
+
+
 }
