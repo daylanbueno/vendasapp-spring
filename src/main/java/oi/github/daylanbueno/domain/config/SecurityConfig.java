@@ -34,13 +34,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .roles("USER")
         ;
     }
-
-
      /*
         Esse método é responsável pela autorização do usuário
+        quem acessa quem?
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/api/clientes/**")
+            .permitAll()
+            .and()
+            .formLogin();
     }
 }
