@@ -1,5 +1,7 @@
 package oi.github.daylanbueno.domain.config;
 
+import oi.github.daylanbueno.domain.service.impl.UsuarioServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /*
+     busca a implementação, que busca o usuário na base de dados.
+     */
+    @Autowired
+    private  UsuarioServiceImpl usuarioService;
 
     /*
        Esse bean é responsável por criptografa e descriptografa a senha do usuário
@@ -27,12 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-         .passwordEncoder((passwordEncoder()))
-          .withUser("dbsantos")
-          .password(passwordEncoder().encode("teste"))
-          .roles("USER")
-        ;
+        auth
+            .userDetailsService(usuarioService) // vai busca a implementação, para carregar usuário do banco de dados.
+            .passwordEncoder(passwordEncoder());
     }
      /*
         Esse método é responsável pela autorização do usuário
@@ -50,6 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
            .antMatchers("/api/produtos")
                 .hasAnyRole("ADMIN")
                 .and()
-            .formLogin();
+            .httpBasic();
     }
 }
