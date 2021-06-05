@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 
 @Service
 public class JwtService {
@@ -29,10 +30,16 @@ public class JwtService {
         Instant instant = dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant();
         Date data = Date.from(instant);
 
+        // caso queira mais informações no seu token.
+//        HashMap<String, Object>  cleams  = new HashMap<>();
+//        cleams.put("email", "usuario@gmail.com");
+//        cleams.put("roles", "admin");
+
         return Jwts
                 .builder()
                 .setSubject(usuario.getLogin())
                 .setExpiration(data)
+//                .setClaims(cleams) // se quiser mais informações no seu token.
                 .signWith(SignatureAlgorithm.ES512, chaveAssinatura)
                 .compact();
     }
