@@ -1,36 +1,48 @@
 package oi.github.daylanbueno.domain.service.impl;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import oi.github.daylanbueno.domain.entity.Usuario;
+import oi.github.daylanbueno.domain.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UsuarioServiceImpl implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
-
+    private final UsuarioRepository usuarioRepository;
     /**
      *
-     * @param userName
+     * @param login
      * @return  retorna o usuário que busca na dade dados
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserByUsername(String  userName) throws UsernameNotFoundException {
-        if(!userName.equals("dbsantos")) {
-            throw new UsernameNotFoundException("Usuário não encontrado ");
-        }
-        // fazendo mock de usuário já que ainda não temos cadastrado na base dados.
+    public UserDetails loadUserByUsername(String  login) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository
+                    .findByLogin(login)
+                    .orElseThrow(() -> {
+                        throw new UsernameNotFoundException("Usuário não encontrado ");
+                    });
+        String[] roles = usuario.isAdmin()  ? new String[] {"ADMIN", "USER"} : new String[] {"USER"};
+
         return User
                 .builder()
-                .username("dbsantos")
-                .password(passwordEncoder.encode("123"))
-                .roles("USER", "ADMIN")
+                .username(usuario.getLogin())
+                .password(usuario.getSenha())
+                .roles(roles)
                 .build();
+    }
+
+    @Transactional
+    public Usuario salvar(Usuario usuario) {
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        return usuarioRepository.save(usuario);
     }
 }
