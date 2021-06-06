@@ -37,34 +37,25 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente salvarCliente(@RequestBody @Valid Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public ClienteDto salvarCliente(@RequestBody @Valid ClienteDto clienteDto) {
+        return clienteService.save(clienteDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCliente(@PathVariable Integer id) {
-        clienteRepository
-            .findById(id)
-               .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinete de id "+id+" não encontrado"));
+        clienteService.deletar(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Integer id, @RequestBody @Valid Cliente cliente) {
-            clienteRepository
-                .findById(id).map(clienteAtual -> {
-                    cliente.setId(id);
-                   return clienteRepository.save(cliente);
-                }).orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não econtrado"));
+    public ClienteDto update(@PathVariable Integer id, @RequestBody @Valid ClienteDto clienteDto) {
+            clienteDto.setId(id);
+           return clienteService.alterar(clienteDto);
     }
 
     @GetMapping
-    public List<Cliente> find(Cliente filtro) {
-        ExampleMatcher matcher = ExampleMatcher.matching()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        Example example = Example.of(filtro, matcher);
-        return clienteRepository.findAll(example);
+    public List<ClienteDto> find(ClienteDto filtro) {
+       return clienteService.obterClientesPorFiltro(filtro);
     }
 }
