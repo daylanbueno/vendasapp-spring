@@ -1,6 +1,7 @@
 package oi.github.daylanbueno.domain.controller;
 
 import lombok.RequiredArgsConstructor;
+import oi.github.daylanbueno.domain.dto.LoginDto;
 import oi.github.daylanbueno.domain.entity.Usuario;
 import oi.github.daylanbueno.domain.service.impl.UsuarioServiceImpl;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,5 +21,11 @@ public class UsuarioController {
     @PostMapping
     public Usuario salvar(@RequestBody @Valid Usuario usuario) {
          return usuarioService.salvar(usuario);
+    }
+
+
+    @PostMapping("/auth")
+    public String auth(@RequestBody @Valid LoginDto user) {
+        return usuarioService.login(user);
     }
 }

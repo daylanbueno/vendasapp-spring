@@ -1,5 +1,7 @@
 package oi.github.daylanbueno.domain.config;
 
+import oi.github.daylanbueno.domain.security.JwtAuthFilter;
+import oi.github.daylanbueno.domain.security.JwtService;
 import oi.github.daylanbueno.domain.service.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +10,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,6 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private  UsuarioServiceImpl usuarioService;
 
+    @Autowired
+    private JwtService jwtService;
+
     /*
        Esse bean é responsável por criptografa e descriptografa a senha do usuário
        O BCryptPasswordEncoder sempre gera hash diferente.
@@ -29,6 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public OncePerRequestFilter jwtFilter() {
+        return new JwtAuthFilter(usuarioService, jwtService);
+    }
+
 
     /*
         Esse método é responsável pela autenticação do usuário
@@ -54,12 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyRole("USER","ADMIN")
            .antMatchers("/api/produtos")
                 .hasAnyRole("ADMIN")
-            .antMatchers(HttpMethod.POST,"/api/usuarios")
-                .permitAll()
-            .antMatchers("/api/autenticacao/**")
+            .antMatchers(HttpMethod.POST,"/api/usuarios/**")
                 .permitAll()
            .anyRequest().authenticated()
            .and()
-            .httpBasic();
+            .sessionManagement().
+                sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+           .and()
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

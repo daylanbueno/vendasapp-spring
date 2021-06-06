@@ -2,6 +2,7 @@ package oi.github.daylanbueno.domain.controller.exception;
 
 import oi.github.daylanbueno.domain.exception.ObjetoNaoEncontradoExeption;
 import oi.github.daylanbueno.domain.exception.RegraNegocioException;
+import oi.github.daylanbueno.domain.exception.SenhaOuLoginInvalidoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +36,12 @@ public class ApplicationControllerAdvice {
          ).collect(Collectors.toList());
 
          return new ApiError(errors);
+     }
+
+     @ExceptionHandler(SenhaOuLoginInvalidoException.class)
+     @ResponseStatus(HttpStatus.UNAUTHORIZED)
+     public ApiError handleSenhaInformadaInvalida(SenhaOuLoginInvalidoException ex) {
+        return new ApiError(ex.getMessage());
      }
 
 

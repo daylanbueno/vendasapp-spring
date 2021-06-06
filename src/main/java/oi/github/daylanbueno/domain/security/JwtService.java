@@ -12,7 +12,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
 
 @Service
 public class JwtService {
@@ -32,16 +31,10 @@ public class JwtService {
         Instant instant = dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant();
         Date data = Date.from(instant);
 
-        // caso queira mais informações no seu token.
-        HashMap<String, Object> cleams  = new HashMap<>();
-        cleams.put("email", "usuario@gmail.com");
-        cleams.put("roles", "admin");
-
         return Jwts
                 .builder()
                 .setSubject(usuario.getLogin())
                 .setExpiration(data)
-                .setClaims(cleams) // se quiser mais informações no seu token.
                 .signWith(SignatureAlgorithm.HS512, chaveAssinatura)
                 .compact();
     }
@@ -51,12 +44,11 @@ public class JwtService {
             Claims claims = obterClaims(token);
             Date dataExpricacao = claims.getExpiration();
             LocalDateTime data = dataExpricacao.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            return !data.isAfter(LocalDateTime.now());
+            return !LocalDateTime.now().isAfter(data);
         } catch (Exception ex) {
             return false;
         }
     }
-
 
     private Claims obterClaims(String token) throws ExpiredJwtException {
         return Jwts

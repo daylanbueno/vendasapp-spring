@@ -1,8 +1,10 @@
 package oi.github.daylanbueno.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import oi.github.daylanbueno.domain.dto.LoginDto;
 import oi.github.daylanbueno.domain.entity.Usuario;
-import oi.github.daylanbueno.domain.exception.ObjetoNaoEncontradoExeption;
+import oi.github.daylanbueno.domain.exception.RegraNegocioException;
+import oi.github.daylanbueno.domain.exception.SenhaOuLoginInvalidoException;
 import oi.github.daylanbueno.domain.repository.UsuarioRepository;
 import oi.github.daylanbueno.domain.security.JwtService;
 import org.springframework.security.core.userdetails.User;
@@ -49,10 +51,26 @@ public class UsuarioServiceImpl implements UserDetailsService {
         return usuarioRepository.save(usuario);
     }
 
-    public String login(Usuario usuario) {
-        Usuario user = usuarioRepository.
-                findByLogin(usuario.getLogin()).
-                orElseThrow(() -> new ObjetoNaoEncontradoExeption(" O usuário para o login informado não existe"));
-        return jwtService.gerarToken(user);
+    public String login(LoginDto loginDto) {
+        if (loginDto  == null) {
+            throw new RegraNegocioException("O login não pode ser null");
+        }
+
+        Usuario usuario = obterUsuarioPorLogin(loginDto.getLogin());
+        validaSenhas(loginDto, usuario);
+        return jwtService.gerarToken(usuario);
+    }
+
+    private void validaSenhas(LoginDto loginDto, Usuario usuario) {
+        boolean isSenhaValida = passwordEncoder.matches(loginDto.getSenha(), usuario.getSenha());
+        if (!isSenhaValida) {
+            throw new SenhaOuLoginInvalidoException();
+        }
+    }
+
+    private Usuario obterUsuarioPorLogin(String login) {
+        return usuarioRepository.
+                findByLogin(login).
+                orElseThrow(() -> new SenhaOuLoginInvalidoException());
     }
 }
