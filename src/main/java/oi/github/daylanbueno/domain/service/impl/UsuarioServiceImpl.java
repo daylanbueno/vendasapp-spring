@@ -2,7 +2,9 @@ package oi.github.daylanbueno.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import oi.github.daylanbueno.domain.entity.Usuario;
+import oi.github.daylanbueno.domain.exception.ObjetoNaoEncontradoExeption;
 import oi.github.daylanbueno.domain.repository.UsuarioRepository;
+import oi.github.daylanbueno.domain.security.JwtService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,7 @@ public class UsuarioServiceImpl implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
+    private final JwtService jwtService;
     /**
      *
      * @param login
@@ -44,5 +47,12 @@ public class UsuarioServiceImpl implements UserDetailsService {
     public Usuario salvar(Usuario usuario) {
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
+    }
+
+    public String login(Usuario usuario) {
+        Usuario user = usuarioRepository.
+                findByLogin(usuario.getLogin()).
+                orElseThrow(() -> new ObjetoNaoEncontradoExeption(" O usuário para o login informado não existe"));
+        return jwtService.gerarToken(user);
     }
 }
