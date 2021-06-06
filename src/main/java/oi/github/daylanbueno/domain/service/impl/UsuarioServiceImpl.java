@@ -2,11 +2,13 @@ package oi.github.daylanbueno.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import oi.github.daylanbueno.domain.dto.LoginDto;
+import oi.github.daylanbueno.domain.dto.UsuarioDto;
 import oi.github.daylanbueno.domain.entity.Usuario;
 import oi.github.daylanbueno.domain.exception.RegraNegocioException;
 import oi.github.daylanbueno.domain.exception.SenhaOuLoginInvalidoException;
 import oi.github.daylanbueno.domain.repository.UsuarioRepository;
 import oi.github.daylanbueno.domain.security.JwtService;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +24,7 @@ public class UsuarioServiceImpl implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
+    private final ModelMapper modelMapper;
     /**
      *
      * @param login
@@ -46,9 +49,20 @@ public class UsuarioServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    public Usuario salvar(Usuario usuario) {
+    public UsuarioDto salvar(UsuarioDto usuarioDto) {
+        Usuario usuario = modelMapper.map(usuarioDto, Usuario.class);
+        validaSeUsuarioJaCadastrado(usuarioDto);
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        return usuarioRepository.save(usuario);
+        Usuario novoUsuario = usuarioRepository.save(usuario);
+        return modelMapper.map(novoUsuario, UsuarioDto.class);
+    }
+
+    private void validaSeUsuarioJaCadastrado(UsuarioDto usuarioDto) {
+        boolean usuarioExiste = usuarioRepository.
+                findByLogin(usuarioDto.getLogin()).isPresent();
+        if (usuarioExiste) {
+            throw new RegraNegocioException("Já existe um usuário para o login informado");
+        }
     }
 
     public String login(LoginDto loginDto) {
