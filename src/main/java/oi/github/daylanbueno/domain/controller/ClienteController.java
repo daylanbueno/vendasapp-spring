@@ -1,7 +1,10 @@
 package oi.github.daylanbueno.domain.controller;
 
+import lombok.RequiredArgsConstructor;
+import oi.github.daylanbueno.domain.dto.ClienteDto;
 import oi.github.daylanbueno.domain.entity.Cliente;
 import oi.github.daylanbueno.domain.repository.ClienteRepository;
+import oi.github.daylanbueno.domain.service.impl.ClienteService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -21,19 +24,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
+@RequiredArgsConstructor
 public class ClienteController {
 
     private final ClienteRepository clienteRepository;
-
-    public ClienteController(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
-    }
+    private final ClienteService clienteService;
 
     @GetMapping("/{id}")
-    public Cliente obterClientePorId(@PathVariable Integer id) {
-      return clienteRepository
-                .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado!"));
+    public ClienteDto obterClientePorId(@PathVariable Integer id) {
+        return clienteService.obterClientePorId(id);
     }
 
     @PostMapping
