@@ -2,11 +2,8 @@ package oi.github.daylanbueno.domain.controller;
 
 import lombok.RequiredArgsConstructor;
 import oi.github.daylanbueno.domain.dto.ClienteDto;
-import oi.github.daylanbueno.domain.entity.Cliente;
 import oi.github.daylanbueno.domain.repository.ClienteRepository;
-import oi.github.daylanbueno.domain.service.impl.ClienteService;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import oi.github.daylanbueno.domain.service.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;

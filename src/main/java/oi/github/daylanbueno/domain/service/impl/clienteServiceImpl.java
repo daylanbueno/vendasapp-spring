@@ -5,6 +5,7 @@ import oi.github.daylanbueno.domain.dto.ClienteDto;
 import oi.github.daylanbueno.domain.entity.Cliente;
 import oi.github.daylanbueno.domain.exception.RegraNegocioException;
 import oi.github.daylanbueno.domain.repository.ClienteRepository;
+import oi.github.daylanbueno.domain.service.ClienteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class clienteServiceImpl implements  ClienteService {
+public class clienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final ModelMapper modelMapper;
