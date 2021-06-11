@@ -22,8 +22,6 @@ import java.util.List;
 @RequestMapping("/api/clientes")
 @RequiredArgsConstructor
 public class ClienteController {
-
-    private final ClienteRepository clienteRepository;
     private final ClienteService clienteService;
 
     @GetMapping("/{id}")

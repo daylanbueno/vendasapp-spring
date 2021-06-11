@@ -18,6 +18,7 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(RegraNegocioException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleRegraNegocioException(RegraNegocioException ex) {
+
         return new ApiError(ex.getMessage());
      }
 

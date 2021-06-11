@@ -1,7 +1,6 @@
 package oi.github.daylanbueno.domain.service;
 
 import oi.github.daylanbueno.domain.dto.ClienteDto;
-import oi.github.daylanbueno.domain.entity.Cliente;
 
 import java.util.List;
 

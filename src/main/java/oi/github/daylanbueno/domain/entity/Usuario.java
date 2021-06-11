@@ -13,20 +13,22 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Builder
 @Entity
-@Table(name = "usuario")
+@Table(name = "USUARIO")
 public class Usuario {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @Column
+    @Column(name = "ID")
     private Integer id;
-    @Column
+    @Column(name = "LOGIN")
     @NotEmpty(message = "{campo.login.obrigatorio}")
     private String login;
-    @Column
+
+    @Column(name = "SENHA")
     @NotEmpty(message = "{campo.senha.obrigatorio}")
     private String senha;
-    @Column
+
+    @Column(name = "ADMIN")
     private boolean admin;
 
 }
