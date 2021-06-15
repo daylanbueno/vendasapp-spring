@@ -23,7 +23,6 @@ public class UsuarioController {
          return usuarioService.salvar(usuario);
     }
 
-
     @PostMapping("/auth")
     public String auth(@RequestBody @Valid LoginDto user) {
         return usuarioService.login(user);
