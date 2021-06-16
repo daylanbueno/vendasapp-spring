@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class ApplicationControllerAdvice {
 
     @ExceptionHandler(RegraNegocioException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
     public ApiError handleRegraNegocioException(RegraNegocioException ex) {
 
         return new ApiError(ex.getMessage());

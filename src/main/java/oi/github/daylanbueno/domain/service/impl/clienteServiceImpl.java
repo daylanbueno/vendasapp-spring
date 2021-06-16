@@ -3,6 +3,7 @@ package oi.github.daylanbueno.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import oi.github.daylanbueno.domain.dto.ClienteDto;
 import oi.github.daylanbueno.domain.entity.Cliente;
+import oi.github.daylanbueno.domain.exception.ObjetoNaoEncontradoExeption;
 import oi.github.daylanbueno.domain.exception.RegraNegocioException;
 import oi.github.daylanbueno.domain.repository.ClienteRepository;
 import oi.github.daylanbueno.domain.service.ClienteService;
@@ -27,7 +28,7 @@ public class clienteServiceImpl implements ClienteService {
     public ClienteDto obterClientePorId(Integer id) {
         Cliente cliente = clienteRepository
                 .findById(id)
-                .orElseThrow(() -> new RegraNegocioException("Cliente não encontrado!"));
+                .orElseThrow(() -> new ObjetoNaoEncontradoExeption("Cliente não encontrado!"));
         return modelMapper.map(cliente, ClienteDto.class);
     }
 
@@ -60,7 +61,7 @@ public class clienteServiceImpl implements ClienteService {
                 .findById(cliente.getId()).map(clienteAtual -> {
             cliente.setId(clienteAtual.getId());
             return clienteRepository.save(cliente);
-        }).orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não econtrado"));
+        }).orElseThrow(() ->  new ObjetoNaoEncontradoExeption("Cliente não econtrado"));
 
         return modelMapper.map(cliente, ClienteDto.class);
     }
