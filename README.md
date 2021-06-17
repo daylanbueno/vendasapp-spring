@@ -25,7 +25,7 @@ O código não é fiel ao curso, o curso foi usado como base de estudo.
   - mvn spring-boot:run -Dspring-boot.run.profile=dev
 ![image](https://user-images.githubusercontent.com/17939912/122414856-d48f4780-cf5d-11eb-9b5d-13b69349cf81.png)
 
-* Api executando na porta 8081
+* Api executará na porta 8081 usando o banco de dados h2 em memória.
 * Consulta a documentação no swagger para ver mais.
 
 ![image](https://user-images.githubusercontent.com/17939912/122414613-a6aa0300-cf5d-11eb-9f8b-00b1e1737ead.png)
