@@ -29,3 +29,4 @@ O código não é fiel ao curso, o curso foi usado como base de estudo.
 * Consulta a documentação no swagger para ver mais.
 
 ![image](https://user-images.githubusercontent.com/17939912/122414613-a6aa0300-cf5d-11eb-9f8b-00b1e1737ead.png)
+
